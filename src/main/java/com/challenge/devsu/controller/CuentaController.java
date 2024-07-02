@@ -2,7 +2,7 @@ package com.challenge.devsu.controller;
 
 import com.challenge.devsu.dto.CuentaDTO;
 import com.challenge.devsu.dto.DatosDeCuentaDTO;
-import com.challenge.devsu.model.Cuenta;
+import com.challenge.devsu.dto.response.CuentaResponseDTO;
 import com.challenge.devsu.service.ICuentaService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class CuentaController {
     private ICuentaService cuentaService;
 
     @GetMapping(value = "/obtencion/{id}")
-    public Cuenta buscarPorId(@PathVariable(required = true) Long id){
+    public CuentaResponseDTO buscarPorId(@PathVariable(required = true) Long id){
         logger.info("Id:{}", id);
 
         return cuentaService.buscarPorId(id);
@@ -35,15 +35,15 @@ public class CuentaController {
     }
 
     @PostMapping(value = "/creacion")
-    public ResponseEntity<Cuenta> crear(@Valid @RequestBody CuentaDTO cuentaDTO) {
+    public ResponseEntity<CuentaResponseDTO> crear(@Valid @RequestBody CuentaDTO cuentaDTO) {
         logger.info("Creacion de nueva cuenta:{}", cuentaDTO);
-        Cuenta nuevaCuenta = cuentaService.crear(cuentaDTO);
+        CuentaResponseDTO nuevaCuenta = cuentaService.crear(cuentaDTO);
 
         return new ResponseEntity<>(nuevaCuenta, HttpStatus.CREATED);
     }
 
     @PatchMapping(value = "/{id}")
-    public ResponseEntity<Cuenta> actualizar(@PathVariable Long id,
+    public ResponseEntity<CuentaResponseDTO> actualizar(@PathVariable Long id,
                                               @RequestBody DatosDeCuentaDTO datosDeCuentaDTO) {
         logger.info("Actualizacion de cuenta con id:{} - valores a actualizar:{}", id, datosDeCuentaDTO);
 
@@ -51,7 +51,7 @@ public class CuentaController {
     }
 
     @GetMapping(value = "/buscarTodas")
-    public @ResponseBody Iterable<Cuenta> buscarTodas() {
+    public @ResponseBody Iterable<CuentaResponseDTO> buscarTodas() {
         return cuentaService.buscarTodas();
     }
 }

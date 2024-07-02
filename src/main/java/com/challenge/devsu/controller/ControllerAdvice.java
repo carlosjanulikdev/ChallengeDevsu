@@ -1,7 +1,8 @@
 package com.challenge.devsu.controller;
 
 import com.challenge.devsu.dto.ErrorDTO;
-import com.challenge.devsu.exception.ClienteNoEncontradoException;
+import com.challenge.devsu.exception.ClienteInexistenteException;
+import com.challenge.devsu.exception.CuentaInexistenteException;
 import com.challenge.devsu.exception.TipoCuentaNoEncontradaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    @ExceptionHandler(value = ClienteNoEncontradoException.class)
-    public ResponseEntity<ErrorDTO> clienteNoEncontradoExceptionHandler(ClienteNoEncontradoException e){
+    @ExceptionHandler(value = ClienteInexistenteException.class)
+    public ResponseEntity<ErrorDTO> clienteInexistenteExceptionHandler(ClienteInexistenteException e){
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .code("P-001")
                 .message(e.getMessage())
@@ -33,6 +34,16 @@ public class ControllerAdvice {
                             .code("P-002")
                             .message(e.getMessage())
                             .build();
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = CuentaInexistenteException.class)
+    public ResponseEntity<ErrorDTO> cuentaInexistenteExceptionHandler(CuentaInexistenteException e){
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .code("P-003")
+                .message(e.getMessage())
+                .build();
 
         return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
     }
