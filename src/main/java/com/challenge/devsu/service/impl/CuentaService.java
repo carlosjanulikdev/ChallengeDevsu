@@ -2,6 +2,8 @@ package com.challenge.devsu.service.impl;
 
 import com.challenge.devsu.dto.CuentaDTO;
 import com.challenge.devsu.dto.DatosDeCuentaDTO;
+import com.challenge.devsu.exception.ClienteNoEncontradoException;
+import com.challenge.devsu.exception.TipoCuentaNoEncontradaException;
 import com.challenge.devsu.model.Cliente;
 import com.challenge.devsu.model.Cuenta;
 import com.challenge.devsu.model.TipoCuenta;
@@ -31,11 +33,18 @@ public class CuentaService implements ICuentaService {
 
     @SneakyThrows
     public Cuenta crear(CuentaDTO cuentaDTO) {
-        Optional<TipoCuenta> tipoCuenta = tipoCuentaRepository.findById(cuentaDTO.getTipoCuentaId());
-        Optional<Cliente> cliente = clienteRepository.findById(cuentaDTO.getClienteId());
+        TipoCuenta tipoCuenta = tipoCuentaRepository.findById(cuentaDTO.getTipoCuentaId())
+                                 .orElseThrow(() ->
+                                        new TipoCuentaNoEncontradaException("No existe el tipo de cuenta con id: "+
+                                                cuentaDTO.getTipoCuentaId()));
 
-        Cuenta cuenta = new Cuenta(cuentaDTO.getNumero(), tipoCuenta.get(), cuentaDTO.getSaldoInicial(),
-                cuentaDTO.getEstado(), cliente.get());
+        Cliente cliente = clienteRepository.findById(cuentaDTO.getClienteId())
+                            .orElseThrow(() ->
+                                    new ClienteNoEncontradoException("No existe el cliente con id: "+
+                                            cuentaDTO.getClienteId()));
+
+        Cuenta cuenta = new Cuenta(cuentaDTO.getNumero(), tipoCuenta, cuentaDTO.getSaldoInicial(),
+                cuentaDTO.getEstado(), cliente);
 
         return cuentaRepository.save(cuenta);
     }
