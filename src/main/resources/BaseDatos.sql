@@ -59,3 +59,6 @@ CREATE TABLE `devsu`.`movimiento` (
 INSERT INTO devsu.tipo_cuenta (descripcion) VALUES ('Ahorros');
 INSERT INTO devsu.tipo_cuenta (descripcion) VALUES ('Corriente');
 
+INSERT INTO devsu.tipo_movimiento (descripcion) VALUES ('Deposito');
+INSERT INTO devsu.tipo_movimiento (descripcion) VALUES ('Retiro');
+

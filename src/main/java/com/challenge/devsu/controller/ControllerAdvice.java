@@ -1,9 +1,7 @@
 package com.challenge.devsu.controller;
 
 import com.challenge.devsu.dto.ErrorDTO;
-import com.challenge.devsu.exception.ClienteInexistenteException;
-import com.challenge.devsu.exception.CuentaInexistenteException;
-import com.challenge.devsu.exception.TipoCuentaNoEncontradaException;
+import com.challenge.devsu.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,8 +26,8 @@ public class ControllerAdvice {
         return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = TipoCuentaNoEncontradaException.class)
-    public ResponseEntity<ErrorDTO> tipoCuentaNoEncontradaExceptionHandler(TipoCuentaNoEncontradaException e){
+    @ExceptionHandler(value = TipoCuentaInexistenteException.class)
+    public ResponseEntity<ErrorDTO> tipoCuentaInexistenteExceptionHandler(TipoCuentaInexistenteException e){
         ErrorDTO errorDTO = ErrorDTO.builder()
                             .code("P-002")
                             .message(e.getMessage())
@@ -42,6 +40,26 @@ public class ControllerAdvice {
     public ResponseEntity<ErrorDTO> cuentaInexistenteExceptionHandler(CuentaInexistenteException e){
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .code("P-003")
+                .message(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = MovimientoInexistenteException.class)
+    public ResponseEntity<ErrorDTO> movimientoInexistenteExceptionHandler(MovimientoInexistenteException e){
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .code("P-004")
+                .message(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = TipoMovimientoInexistenteException.class)
+    public ResponseEntity<ErrorDTO> TipoMovimientoInexistenteExceptionHandler(TipoMovimientoInexistenteException e){
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .code("P-005")
                 .message(e.getMessage())
                 .build();
 

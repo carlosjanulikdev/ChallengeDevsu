@@ -1,11 +1,11 @@
 package com.challenge.devsu.service.impl;
 
-import com.challenge.devsu.dto.CuentaDTO;
-import com.challenge.devsu.dto.DatosDeCuentaDTO;
+import com.challenge.devsu.dto.request.CuentaRequestDTO;
+import com.challenge.devsu.dto.request.DatosDeCuentaRequestDTO;
 import com.challenge.devsu.dto.response.CuentaResponseDTO;
 import com.challenge.devsu.exception.ClienteInexistenteException;
 import com.challenge.devsu.exception.CuentaInexistenteException;
-import com.challenge.devsu.exception.TipoCuentaNoEncontradaException;
+import com.challenge.devsu.exception.TipoCuentaInexistenteException;
 import com.challenge.devsu.model.Cliente;
 import com.challenge.devsu.model.Cuenta;
 import com.challenge.devsu.model.TipoCuenta;
@@ -37,10 +37,10 @@ public class CuentaService implements ICuentaService {
 
 
     @SneakyThrows
-    public CuentaResponseDTO crear(CuentaDTO cuentaDTO) {
+    public CuentaResponseDTO crear(CuentaRequestDTO cuentaDTO) {
         TipoCuenta tipoCuenta = tipoCuentaRepository.findById(cuentaDTO.getTipoCuentaId())
                                  .orElseThrow(() ->
-                                        new TipoCuentaNoEncontradaException("No existe el tipo de cuenta con id: "+
+                                        new TipoCuentaInexistenteException("No existe el tipo de cuenta con id: "+
                                                 cuentaDTO.getTipoCuentaId()));
 
         Cliente cliente = clienteRepository.findById(cuentaDTO.getClienteId())
@@ -76,7 +76,8 @@ public class CuentaService implements ICuentaService {
                 modelMapper.map(cuenta, CuentaResponseDTO.class)).toList();
     }
 
-    public CuentaResponseDTO actualizar(Long id, DatosDeCuentaDTO datosDeCuentaDTO) {
+    @SneakyThrows
+    public CuentaResponseDTO actualizar(Long id, DatosDeCuentaRequestDTO datosDeCuentaDTO) {
         return cuentaRepository.findById(id)
                 .map(cuenta -> {
                     cuenta.setNumero(datosDeCuentaDTO.getNumero());
@@ -85,7 +86,7 @@ public class CuentaService implements ICuentaService {
 
                     return modelMapper.map(cuentaRepository.save(cuenta), CuentaResponseDTO.class);
                 })
-                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada con id " + id));
+                .orElseThrow(() -> new CuentaInexistenteException("No existe la cuenta con id: "+ id));
     }
 
 }

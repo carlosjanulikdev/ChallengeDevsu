@@ -31,7 +31,20 @@ public class Movimiento {
     @Column(name="saldo")
     private Double saldo;
 
+    @JsonIgnoreProperties("movimientos")
     @ManyToOne
     @JoinColumn(name = "cuenta_id")
     private Cuenta cuenta;
+
+    public Movimiento(){
+
+    }
+
+    public Movimiento(Date fecha, TipoMovimiento tipoMovimiento, Double valor, Double saldo, Cuenta cuenta) {
+        this.fecha = fecha;
+        this.tipoMovimiento = tipoMovimiento;
+        this.valor = valor;
+        this.saldo = saldo;
+        this.cuenta = cuenta;
+    }
 }

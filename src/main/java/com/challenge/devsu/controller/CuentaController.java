@@ -1,7 +1,7 @@
 package com.challenge.devsu.controller;
 
-import com.challenge.devsu.dto.CuentaDTO;
-import com.challenge.devsu.dto.DatosDeCuentaDTO;
+import com.challenge.devsu.dto.request.CuentaRequestDTO;
+import com.challenge.devsu.dto.request.DatosDeCuentaRequestDTO;
 import com.challenge.devsu.dto.response.CuentaResponseDTO;
 import com.challenge.devsu.service.ICuentaService;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ public class CuentaController {
     }
 
     @PostMapping(value = "/creacion")
-    public ResponseEntity<CuentaResponseDTO> crear(@Valid @RequestBody CuentaDTO cuentaDTO) {
+    public ResponseEntity<CuentaResponseDTO> crear(@Valid @RequestBody CuentaRequestDTO cuentaDTO) {
         logger.info("Creacion de nueva cuenta:{}", cuentaDTO);
         CuentaResponseDTO nuevaCuenta = cuentaService.crear(cuentaDTO);
 
@@ -44,7 +44,7 @@ public class CuentaController {
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<CuentaResponseDTO> actualizar(@PathVariable Long id,
-                                              @RequestBody DatosDeCuentaDTO datosDeCuentaDTO) {
+                                              @RequestBody DatosDeCuentaRequestDTO datosDeCuentaDTO) {
         logger.info("Actualizacion de cuenta con id:{} - valores a actualizar:{}", id, datosDeCuentaDTO);
 
         return new ResponseEntity<>(cuentaService.actualizar(id, datosDeCuentaDTO), HttpStatus.OK);

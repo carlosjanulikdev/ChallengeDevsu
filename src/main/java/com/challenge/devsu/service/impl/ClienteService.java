@@ -1,7 +1,7 @@
 package com.challenge.devsu.service.impl;
 
-import com.challenge.devsu.dto.ClienteDTO;
-import com.challenge.devsu.dto.DatosDeClienteDTO;
+import com.challenge.devsu.dto.request.ClienteRequestDTO;
+import com.challenge.devsu.dto.request.DatosDeClienteRequestDTO;
 import com.challenge.devsu.dto.response.ClienteResponseDTO;
 import com.challenge.devsu.exception.ClienteInexistenteException;
 import com.challenge.devsu.model.Cliente;
@@ -25,7 +25,7 @@ public class ClienteService implements IClienteService {
 
 
     @SneakyThrows
-    public ClienteResponseDTO crear(ClienteDTO clienteDTO) {
+    public ClienteResponseDTO crear(ClienteRequestDTO clienteDTO) {
         Cliente cliente = new Cliente(clienteDTO.getNombre(), clienteDTO.getGenero(), clienteDTO.getEdad(), clienteDTO.getIdentificacion(),
                 clienteDTO.getDireccion(), clienteDTO.getTelefono(), clienteDTO.getContrasenia(),
                 clienteDTO.getEstado());
@@ -55,7 +55,8 @@ public class ClienteService implements IClienteService {
                 modelMapper.map(cliente, ClienteResponseDTO.class)).toList();
     }
 
-    public ClienteResponseDTO actualizar(Long id, DatosDeClienteDTO datosDeClienteDTO) {
+    @SneakyThrows
+    public ClienteResponseDTO actualizar(Long id, DatosDeClienteRequestDTO datosDeClienteDTO) {
         return clienteRepository.findById(id)
                 .map(cliente -> {
                     cliente.setNombre(datosDeClienteDTO.getNombre());
@@ -64,7 +65,7 @@ public class ClienteService implements IClienteService {
 
                     return modelMapper.map(clienteRepository.save(cliente), ClienteResponseDTO.class);
                 })
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id " + id));
+                .orElseThrow(() -> new ClienteInexistenteException("No existe el cliente con id: "+ id));
     }
 
 }

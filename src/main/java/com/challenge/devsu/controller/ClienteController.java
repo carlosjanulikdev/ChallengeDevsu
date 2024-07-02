@@ -1,9 +1,8 @@
 package com.challenge.devsu.controller;
 
-import com.challenge.devsu.dto.ClienteDTO;
-import com.challenge.devsu.dto.DatosDeClienteDTO;
+import com.challenge.devsu.dto.request.ClienteRequestDTO;
+import com.challenge.devsu.dto.request.DatosDeClienteRequestDTO;
 import com.challenge.devsu.dto.response.ClienteResponseDTO;
-import com.challenge.devsu.model.Cliente;
 import com.challenge.devsu.service.IClienteService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -21,11 +20,6 @@ public class ClienteController {
     @Autowired
     private IClienteService clienteService;
 
-    /**
-     *
-     * @param id
-     * @return a client by id
-     */
     @GetMapping(value = "/obtencion/{id}")
     public ClienteResponseDTO buscarPorId(@PathVariable(required = true) Long id){
         logger.info("Id:{}", id);
@@ -41,7 +35,7 @@ public class ClienteController {
     }
 
     @PostMapping(value = "/creacion")
-    public ResponseEntity<ClienteResponseDTO> crear(@Valid @RequestBody ClienteDTO clienteDTO) {
+    public ResponseEntity<ClienteResponseDTO> crear(@Valid @RequestBody ClienteRequestDTO clienteDTO) {
         logger.info("Creacion de nuevo cliente:{}", clienteDTO);
         ClienteResponseDTO nuevoCliente = clienteService.crear(clienteDTO);
 
@@ -50,16 +44,12 @@ public class ClienteController {
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<ClienteResponseDTO> actualizar(@PathVariable Long id,
-                                              @RequestBody DatosDeClienteDTO datosDeClienteDTO) {
+                                              @RequestBody DatosDeClienteRequestDTO datosDeClienteDTO) {
         logger.info("Actualizacion de cliente con id:{} - valores a actualizar:{}", id, datosDeClienteDTO);
 
         return new ResponseEntity<>(clienteService.actualizar(id, datosDeClienteDTO), HttpStatus.OK);
     }
 
-    /**
-     *
-     * @return a JSON with all clients
-     */
     @GetMapping(value = "/buscarTodos")
     public @ResponseBody Iterable<ClienteResponseDTO> buscarTodos() {
         return clienteService.buscarTodos();

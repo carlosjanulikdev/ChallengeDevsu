@@ -1,9 +1,9 @@
-package com.challenge.devsu.dto;
+package com.challenge.devsu.dto.request;
 
 import lombok.Data;
 
 @Data
-public class ClienteDTO {
+public class ClienteRequestDTO {
 
     private String nombre;
 
