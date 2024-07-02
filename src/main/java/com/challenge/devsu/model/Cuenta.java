@@ -37,4 +37,16 @@ public class Cuenta {
 
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private List<Movimiento> movimientos;
+
+    public Cuenta(){
+
+    }
+
+    public Cuenta(String numero, TipoCuenta tipoCuenta, Double saldoInicial, Boolean estado, Cliente cliente) {
+        this.numero = numero;
+        this.tipoCuenta = tipoCuenta;
+        this.saldoInicial = saldoInicial;
+        this.estado = estado;
+        this.cliente = cliente;
+    }
 }

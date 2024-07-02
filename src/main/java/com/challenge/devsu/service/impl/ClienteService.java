@@ -1,5 +1,6 @@
 package com.challenge.devsu.service.impl;
 
+import com.challenge.devsu.dto.DatosDeClienteDTO;
 import com.challenge.devsu.dto.ClienteDTO;
 import com.challenge.devsu.model.Cliente;
 import com.challenge.devsu.repository.ClienteRepository;
@@ -17,7 +18,7 @@ public class ClienteService implements IClienteService {
     private ClienteRepository clienteRepository;
 
     @SneakyThrows
-    public Cliente create(ClienteDTO clienteDTO) {
+    public Cliente crear(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente(clienteDTO.getNombre(), clienteDTO.getGenero(), clienteDTO.getEdad(), clienteDTO.getIdentificacion(),
                 clienteDTO.getDireccion(), clienteDTO.getTelefono(), clienteDTO.getContrasenia(),
                 clienteDTO.getEstado());
@@ -25,15 +26,27 @@ public class ClienteService implements IClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente findById(Long id){
+    public Cliente buscarPorId(Long id){
         return clienteRepository.findById(id).get();
     }
 
-    public void deleteById(Long id){
+    public void eliminarPorId(Long id){
         clienteRepository.deleteById(id);
     }
 
-    public List<Cliente> findAll(){
+    public List<Cliente> buscarTodos(){
         return (List<Cliente>) clienteRepository.findAll();
     }
+
+    public Cliente actualizar(Long id, DatosDeClienteDTO datosDeClienteDTO) {
+        return clienteRepository.findById(id)
+                .map(cliente -> {
+                    cliente.setNombre(datosDeClienteDTO.getNombre());
+                    cliente.setEdad(datosDeClienteDTO.getEdad());
+                    cliente.setTelefono(datosDeClienteDTO.getTelefono());
+                    return clienteRepository.save(cliente);
+                })
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con id " + id));
+    }
+
 }
