@@ -4,7 +4,6 @@ import com.challenge.devsu.dto.response.ReporteEstadoCuentaResponseDTO;
 import com.challenge.devsu.model.Movimiento;
 import com.challenge.devsu.repository.MovimientoRepository;
 import com.challenge.devsu.service.IReporteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

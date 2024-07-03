@@ -6,6 +6,7 @@ import com.challenge.devsu.dto.response.MovimientoResponseDTO;
 import com.challenge.devsu.exception.CuentaInexistenteException;
 import com.challenge.devsu.exception.MovimientoInexistenteException;
 import com.challenge.devsu.exception.TipoMovimientoInexistenteException;
+import com.challenge.devsu.exception.ValidacionNegocioException;
 import com.challenge.devsu.model.Cuenta;
 import com.challenge.devsu.model.Movimiento;
 import com.challenge.devsu.model.TipoMovimiento;
@@ -13,12 +14,10 @@ import com.challenge.devsu.repository.CuentaRepository;
 import com.challenge.devsu.repository.MovimientoRepository;
 import com.challenge.devsu.repository.TipoMovimientoRepository;
 import com.challenge.devsu.service.IMovimientoService;
+import com.challenge.devsu.util.Constants;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.challenge.devsu.util.Constants;
-import com.challenge.devsu.exception.ValidacionNegocioException;
 
 import java.util.List;
 
