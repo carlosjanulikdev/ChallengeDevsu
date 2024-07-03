@@ -49,19 +49,19 @@ public class MovimientoService implements IMovimientoService {
                 .orElseThrow(() ->
                         new CuentaInexistenteException("No existe la cuenta con id: "+ movimientoDTO.getCuentaId()));
 
-        //Calcular saldo del movimiento
+        //Calcular saldo disponible
         List<Movimiento> movimientosPrevios = movimientoRepository.findByCuentaIdOrderByIdDesc(movimientoDTO.getCuentaId());
-        Double saldoActual = (movimientosPrevios != null && !movimientosPrevios.isEmpty()) ? movimientosPrevios.get(0).getSaldo() : 0.0;
+        Double saldoDisponible = (movimientosPrevios != null && !movimientosPrevios.isEmpty()) ? movimientosPrevios.get(0).getSaldo() : cuenta.getSaldoInicial();
 
         if(Constants.TIPO_MOVIMIENTO_RETIRO.equals(tipoMovimiento.getDescripcion()) &&
-            saldoActual + movimientoDTO.getValor() < 0){
+            saldoDisponible + movimientoDTO.getValor() < 0){
             throw new ValidacionNegocioException("Saldo no disponible");
         }
 
-        saldoActual+= movimientoDTO.getValor();
+        saldoDisponible+= movimientoDTO.getValor();
 
         Movimiento movimiento = new Movimiento(movimientoDTO.getFecha(), tipoMovimiento, movimientoDTO.getValor(),
-                saldoActual, cuenta);
+                saldoDisponible, cuenta);
 
         movimientoRepository.save(movimiento);
 
