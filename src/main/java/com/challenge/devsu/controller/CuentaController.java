@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class CuentaController {
     Logger logger = LoggerFactory.getLogger(CuentaController.class);
 
-    @Autowired
     private ICuentaService cuentaService;
+
+    public CuentaController(ICuentaService cuentaService) {
+        this.cuentaService = cuentaService;
+    }
 
     @GetMapping(value = "/obtencion/{id}")
     public CuentaResponseDTO buscarPorId(@PathVariable(required = true) Long id){

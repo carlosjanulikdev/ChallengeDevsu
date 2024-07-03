@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class MovimientoController {
     Logger logger = LoggerFactory.getLogger(MovimientoController.class);
 
-    @Autowired
     private IMovimientoService movimientoService;
+
+    public MovimientoController(IMovimientoService movimientoService) {
+        this.movimientoService = movimientoService;
+    }
 
     @GetMapping(value = "/obtencion/{id}")
     public MovimientoResponseDTO buscarPorId(@PathVariable(required = true) Long id){

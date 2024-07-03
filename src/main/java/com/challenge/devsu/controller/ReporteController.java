@@ -19,8 +19,11 @@ import java.util.List;
 public class ReporteController {
     Logger logger = LoggerFactory.getLogger(ReporteController.class);
 
-    @Autowired
     private IReporteService reporteService;
+
+    public ReporteController(IReporteService reporteService) {
+        this.reporteService = reporteService;
+    }
 
     @GetMapping
     public List<ReporteEstadoCuentaResponseDTO> generarReporteEstadoCuenta(

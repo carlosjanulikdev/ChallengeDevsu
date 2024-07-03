@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class ClienteController {
     Logger logger = LoggerFactory.getLogger(ClienteController.class);
 
-    @Autowired
     private IClienteService clienteService;
+
+    public ClienteController(IClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
 
     @GetMapping(value = "/obtencion/{id}")
     public ClienteResponseDTO buscarPorId(@PathVariable(required = true) Long id){

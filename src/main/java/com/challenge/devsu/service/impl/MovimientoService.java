@@ -25,18 +25,17 @@ import java.util.List;
 @Service
 public class MovimientoService implements IMovimientoService {
 
-    @Autowired
     private CuentaRepository cuentaRepository;
-
-    @Autowired
     private MovimientoRepository movimientoRepository;
-
-    @Autowired
     private TipoMovimientoRepository tipoMovimientoRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
+    public MovimientoService(CuentaRepository cuentaRepository, MovimientoRepository movimientoRepository, TipoMovimientoRepository tipoMovimientoRepository, ModelMapper modelMapper) {
+        this.cuentaRepository = cuentaRepository;
+        this.movimientoRepository = movimientoRepository;
+        this.tipoMovimientoRepository = tipoMovimientoRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @SneakyThrows
     public MovimientoResponseDTO crear(MovimientoRequestDTO movimientoDTO) {

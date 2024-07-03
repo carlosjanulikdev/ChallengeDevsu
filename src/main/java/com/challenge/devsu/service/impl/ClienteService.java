@@ -17,12 +17,13 @@ import java.util.List;
 @Service
 public class ClienteService implements IClienteService {
 
-    @Autowired
     private ClienteRepository clienteRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
+    public ClienteService(ClienteRepository clienteRepository, ModelMapper modelMapper) {
+        this.clienteRepository = clienteRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @SneakyThrows
     public ClienteResponseDTO crear(ClienteRequestDTO clienteDTO) {

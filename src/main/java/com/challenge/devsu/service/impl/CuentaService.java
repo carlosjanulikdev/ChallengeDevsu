@@ -23,18 +23,17 @@ import java.util.List;
 @Service
 public class CuentaService implements ICuentaService {
 
-    @Autowired
     private CuentaRepository cuentaRepository;
-
-    @Autowired
     private TipoCuentaRepository tipoCuentaRepository;
-
-    @Autowired
     private ClienteRepository clienteRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
+    public CuentaService(CuentaRepository cuentaRepository, TipoCuentaRepository tipoCuentaRepository, ClienteRepository clienteRepository, ModelMapper modelMapper) {
+        this.cuentaRepository = cuentaRepository;
+        this.tipoCuentaRepository = tipoCuentaRepository;
+        this.clienteRepository = clienteRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @SneakyThrows
     public CuentaResponseDTO crear(CuentaRequestDTO cuentaDTO) {

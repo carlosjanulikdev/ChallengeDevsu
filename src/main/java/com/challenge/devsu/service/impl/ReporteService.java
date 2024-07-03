@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class ReporteService implements IReporteService {
 
-    @Autowired
     private MovimientoRepository movimientoRepository;
+
+    public ReporteService(MovimientoRepository movimientoRepository) {
+        this.movimientoRepository = movimientoRepository;
+    }
 
     public List<ReporteEstadoCuentaResponseDTO> reporteEstadoCuenta(Date fechaDesde, Date fechaHasta, Long clienteId){
         List<Movimiento> movimientos = movimientoRepository.findMovimientosByClienteAndFecha(
