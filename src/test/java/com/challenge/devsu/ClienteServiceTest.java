@@ -210,6 +210,4 @@ public class ClienteServiceTest {
         verify(clienteRepository, times(1)).findById(idCliente);
     }
 
-
-
 }
