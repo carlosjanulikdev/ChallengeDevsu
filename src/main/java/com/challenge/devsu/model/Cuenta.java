@@ -36,7 +36,7 @@ public class Cuenta {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cuenta", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Movimiento> movimientos;
 
     public Cuenta(){

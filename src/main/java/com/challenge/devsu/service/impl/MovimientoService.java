@@ -17,6 +17,8 @@ import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.challenge.devsu.util.Constants;
+import com.challenge.devsu.exception.ValidacionNegocioException;
 
 import java.util.List;
 
@@ -47,8 +49,19 @@ public class MovimientoService implements IMovimientoService {
                 .orElseThrow(() ->
                         new CuentaInexistenteException("No existe la cuenta con id: "+ movimientoDTO.getCuentaId()));
 
+        //Calcular saldo del movimiento
+        List<Movimiento> movimientosPrevios = movimientoRepository.findByCuentaIdOrderByIdDesc(movimientoDTO.getCuentaId());
+        Double saldoActual = (movimientosPrevios != null && !movimientosPrevios.isEmpty()) ? movimientosPrevios.get(0).getSaldo() : 0.0;
+
+        if(Constants.TIPO_MOVIMIENTO_RETIRO.equals(tipoMovimiento.getDescripcion()) &&
+            saldoActual + movimientoDTO.getValor() < 0){
+            throw new ValidacionNegocioException("Saldo no disponible");
+        }
+
+        saldoActual+= movimientoDTO.getValor();
+
         Movimiento movimiento = new Movimiento(movimientoDTO.getFecha(), tipoMovimiento, movimientoDTO.getValor(),
-                movimientoDTO.getSaldo(), cuenta);
+                saldoActual, cuenta);
 
         movimientoRepository.save(movimiento);
 

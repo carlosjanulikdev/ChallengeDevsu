@@ -57,7 +57,7 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(value = TipoMovimientoInexistenteException.class)
-    public ResponseEntity<ErrorDTO> TipoMovimientoInexistenteExceptionHandler(TipoMovimientoInexistenteException e){
+    public ResponseEntity<ErrorDTO> tipoMovimientoInexistenteExceptionHandler(TipoMovimientoInexistenteException e){
         ErrorDTO errorDTO = ErrorDTO.builder()
                 .code("P-005")
                 .message(e.getMessage())
@@ -65,6 +65,18 @@ public class ControllerAdvice {
 
         return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = ValidacionNegocioException.class)
+    public ResponseEntity<ErrorDTO> validacionNegocioExceptionExceptionHandler(ValidacionNegocioException e){
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .code("P-006")
+                .message(e.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
